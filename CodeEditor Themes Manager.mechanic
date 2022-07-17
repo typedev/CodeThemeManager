@@ -1,0 +1,10 @@
+extensionName: CodeEditor Themes Manager
+repository: https://github.com/typedev/CodeEditor Themes Manager
+extensionPath: CodeEditor Themes Manager.roboFontExt
+description: Code theme manager for Robofont 4 Scripting Window.
+developer: Alexander Lubovenko
+developerURL: https://github.com/typedev
+tags: [ interface, workspace, code, scripting ]
+icon: https://raw.githubusercontent.com/typedev/CodeEditor Themes Manager/master/icon.png
+zipPath: https://github.com/typedev/CodeEditor Themes Manager/archive/master.zip
+dateAdded: 2022-07-22 22:43:17

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>addToMenu</key>
+	<array>
+		<dict>
+			<key>path</key>
+			<string>CodeThemesManager.py</string>
+			<key>preferredName</key>
+			<string>CodeEditor Themes Manager</string>
+			<key>shortKey</key>
+			<string></string>
+		</dict>
+	</array>
+	<key>developer</key>
+	<string>Alexander Lubovenko</string>
+	<key>developerURL</key>
+	<string>https://github.com/typedev</string>
+	<key>html</key>
+	<false/>
+	<key>launchAtStartUp</key>
+	<false/>
+	<key>mainScript</key>
+	<string></string>
+	<key>name</key>
+	<string>CodeEditor Themes Manager</string>
+	<key>requiresVersionMajor</key>
+	<string>4</string>
+	<key>requiresVersionMinor</key>
+	<string>0</string>
+	<key>timeStamp</key>
+	<real>1658086997.356106</real>
+	<key>version</key>
+	<string>0.2</string>
+</dict>
+</plist>

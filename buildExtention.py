@@ -7,7 +7,7 @@
 # ------------------------------------------------------------------------
 
 name = "CodeEditor Themes Manager"
-description = 'Сode theme manager for Robofont 4 Scripting Window.'
+description = 'Code theme manager for Robofont 4 Scripting Window.'
 tags = 'interface, workspace, code, scripting'
 version = "0.2"
 mainScriptsList = ['CodeThemesManager']
@@ -35,7 +35,7 @@ if __name__ == "__main__":
 	from datetime import datetime
 
 	menuItems = [{'path': '%s.py' % ms,
-	              'preferredName': ms,
+	              'preferredName': name,
 	              'shortKey': ''} for ms in mainScriptsList]
 
 	# Make the various paths.
