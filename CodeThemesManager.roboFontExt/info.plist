@@ -24,13 +24,13 @@
 	<key>mainScript</key>
 	<string></string>
 	<key>name</key>
-	<string>CodeEditor Themes Manager</string>
+	<string>CodeThemesManager</string>
 	<key>requiresVersionMajor</key>
 	<string>4</string>
 	<key>requiresVersionMinor</key>
 	<string>0</string>
 	<key>timeStamp</key>
-	<real>1658086997.356106</real>
+	<real>1658088027.0463901</real>
 	<key>version</key>
 	<string>0.2</string>
 </dict>
