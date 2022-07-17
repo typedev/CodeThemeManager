@@ -6,7 +6,7 @@
 # but with the addition of creating Mechanic2 registration files
 # ------------------------------------------------------------------------
 
-name = "CodeThemesManager"
+name = "CodeThemeManager"
 title = "CodeEditor Themes Manager"
 description = 'Code theme manager for Robofont 4 Scripting Window.'
 tags = 'interface, workspace, code, scripting'
