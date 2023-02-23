@@ -1,9 +1,11 @@
 # import os
-# import AppKit
+import AppKit
 import vanilla
+import mojo.UI
 from mojo.UI import CodeEditor, getDefault, setDefault, preferencesChanged
 from pygments.token import *
 from pygments.styles import get_style_by_name, get_all_styles
+from vanilla.vanillaBase import osVersionCurrent, osVersion10_14
 
 # # Output window background color
 # "DebuggerBackgroundColor": [r, g, b, 1],
@@ -68,9 +70,12 @@ def getStyleTokensDict (style):
 		stylesdic[k] = v
 	return stylesdic
 
-def applyTheme (applyPrefs = False, styleName = None):
+def applyTheme (applyPrefs = False, styleName = None, darkMode = False):
 	if not applyPrefs or not styleName: return
-	PyDETokenColors = getDefault('PyDETokenColors')
+	_darkMode = ''
+	if darkMode:
+		_darkMode = '.dark'
+	PyDETokenColors = getDefault('PyDETokenColors%s' % _darkMode )
 	# PyDEBackgroundColor = getDefault('PyDEBackgroundColor')
 	# PyDEHightLightColor = getDefault('PyDEHightLightColor')
 	# print(PyDETokenColors)
@@ -92,31 +97,41 @@ def applyTheme (applyPrefs = False, styleName = None):
 
 	if applyPrefs:
 		r, g, b = hex_to_rgb(style.background_color)
-		setDefault('PyDEBackgroundColor', (r, g, b, 1), validate = True)
-		setDefault('DebuggerBackgroundColor', (r, g, b, 1), validate = True)
+		setDefault('PyDEBackgroundColor%s' % _darkMode , (r, g, b, 1), validate = True)
+		setDefault('DebuggerBackgroundColor%s' % _darkMode , (r, g, b, 1), validate = True)
 		r, g, b = hex_to_rgb(style.highlight_color)
-		setDefault('PyDEHightLightColor', (r, g, b, 1), validate = True)
+		setDefault('PyDEHightLightColor%s' % _darkMode , (r, g, b, 1), validate = True)
 		r, g, b = debuggerTextColor
-		setDefault('DebuggerTextColor', (r, g, b, 1), validate = True)
-		setDefault('PyDETokenColors', newPyDETokenColors, validate = True)
+		setDefault('DebuggerTextColor%s' % _darkMode , (r, g, b, 1), validate = True)
+		setDefault('PyDETokenColors%s' % _darkMode , newPyDETokenColors, validate = True)
 		preferencesChanged()
 
 
 class TDCodeThemeManagerWindow:
 	def __init__ (self, parent = None):
-		_version = '0.2'
+		_version = '0.3'
 		self.parent = parent
 
 		self.stylesList = []
 		for style in list(get_all_styles()):
 			self.stylesList.append(style)
 		self.styleName = 'default'
+		self.RFdarkStyleReady = False
+
+		if osVersionCurrent >= osVersion10_14:
+			if hasattr(mojo.UI, 'inDarkMode'):
+				self.RFdarkStyleReady = True
+				# if mojo.UI.inDarkMode():
+				# 	UI_DARKMODE = True
+
 
 		self.w = vanilla.FloatingWindow((500, 600), minSize = (300, 300), title = 'CodeEditor Theme Manager v%s' % _version)
 
 		self.w.label1 = vanilla.TextBox('auto', 'Choose Theme:')
 		self.w.chooseStyles = vanilla.PopUpButton('auto', self.stylesList, sizeStyle = "regular", callback = self.optionsChanged)
-
+		self.w.label2 = vanilla.TextBox('auto', 'MacOS Appearance:')
+		self.w.chooseAppearance = vanilla.PopUpButton('auto', ['Light', 'Dark'], sizeStyle = "regular") # , callback = self.optionsChanged
+		self.w.chooseAppearance.enable(self.RFdarkStyleReady)
 		self.w.btnRun = vanilla.Button('auto', title = 'Apply', callback = self.btnRunCallback)  # ,
 		self.w.textBox = CodeEditor('auto', text = '', readOnly = True, showLineNumbers = True, checksSpelling = False)
 		self.w.textBox.setHighlightStyle(get_style_by_name(self.styleName))
@@ -125,10 +140,12 @@ class TDCodeThemeManagerWindow:
 			# Horizontal
 			"H:|-border-[label1]-border-|",
 			"H:|-border-[chooseStyles]-border-|",
+			"H:|-border-[label2]-border-|",
+			"H:|-border-[chooseAppearance]-border-|",
 			"H:|-border-[btnRun]-border-|",
 			"H:|-0-[textBox]-0-|",
 			# Vertical
-			"V:|-border-[label1]-space-[chooseStyles]-border-[btnRun]-border-[textBox]-0-|"
+			"V:|-border-[label1]-space-[chooseStyles]-border-[label2]-space-[chooseAppearance]-border-[btnRun]-border-[textBox]-0-|"
 		]
 		metrics = {
 			"border": 15,
@@ -142,8 +159,13 @@ class TDCodeThemeManagerWindow:
 		self.styleName = self.stylesList[sender.get()]
 		self.w.textBox.setHighlightStyle(get_style_by_name(self.styleName))
 
+
 	def btnRunCallback (self, sender):
-		applyTheme(applyPrefs = True, styleName = self.styleName)
+		darkMode = False
+		if self.RFdarkStyleReady:
+			if self.w.chooseAppearance.get():
+				darkMode = True
+		applyTheme(applyPrefs = True, styleName = self.styleName, darkMode = darkMode)
 
 
 def main ():
